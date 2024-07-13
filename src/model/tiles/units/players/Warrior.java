@@ -37,13 +37,15 @@ public class Warrior extends Player {
         this.attack += attackGain;
         this.defense += defenseGain;
     }
+
+    //need to take argument?
     public void onGameTick()
     {
         this.remainingCooldown=Math.min(0,this.remainingCooldown-1);
     }
 
-    //enemies list from board!
-    public void onAbilityCast(List<Enemy> enemies)
+    //enemies list from board! change argument?
+    public void abilityCast(List<Enemy> enemies)
     {
         /*
         remaining cooldown ← ability cooldown
@@ -59,8 +61,8 @@ public class Warrior extends Player {
         List<Enemy> enemiesRange=enemiesInRange(enemies);
         if(enemiesRange.size()>0)
         {
-            RandomGenerator randomGenerator = new RandomGenerator();
-            int randomValue = randomGenerator.generate(enemiesRange.size());
+            //RandomGenerator randomGenerator = new RandomGenerator();
+            int randomValue = this.generator.generate(enemiesRange.size());
             Enemy e=enemiesRange.get(randomValue);
             int attack=(int)ABILITY_HIT*this.health.getCapacity();
             this.visit(e,attack);

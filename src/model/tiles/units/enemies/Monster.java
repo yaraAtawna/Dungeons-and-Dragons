@@ -10,6 +10,7 @@ public class Monster extends Enemy{
         this.vision=vision;
     }
 
+    //correct argument???????
     public void onTick(Player p)
     {
         double range=this.position.range(p.getPosition());
@@ -41,8 +42,8 @@ public class Monster extends Enemy{
         else
         {
             //random move
-            RandomGenerator randomGenerator = new RandomGenerator();
-            int randomValue = randomGenerator.generate(3);
+            //RandomGenerator randomGenerator = new RandomGenerator();
+            int randomValue = this.generator.generate(3);
             switch (randomValue)
             {
                 case 0 -> this.move(Direction.LEFT);
