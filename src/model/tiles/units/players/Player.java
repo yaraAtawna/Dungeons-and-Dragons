@@ -13,6 +13,9 @@ public class Player extends Unit {
     protected int level;
     protected int experience;
 
+    protected String abilityName;
+
+
     public Player(String name, int hitPoints, int attack, int defense) {
         super(PLAYER_TILE, name, hitPoints, attack, defense);
         this.level = 1;
