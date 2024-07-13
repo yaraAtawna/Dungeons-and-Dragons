@@ -96,7 +96,11 @@ public abstract class Unit extends Tile {
             case LEFT -> y--;
             case RIGHT -> y++;
         }
-        //board.getBoard()[x][y].accept(this);
+        Position newPosition=new Position(x,y);
+        //interact(board.get(newPosition));
+        //how to access board??
     }
+
+
 
 }
