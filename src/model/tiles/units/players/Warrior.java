@@ -58,7 +58,7 @@ public class Warrior extends Player {
         int current=Math.min(cap,this.health.getCapacity());
         this.health.newCurrent(current);
         //randomly hits enemy
-        List<Enemy> enemiesRange=enemiesInRange(enemies);
+        List<Enemy> enemiesRange=enemiesInRange(enemies,3);
         if(enemiesRange.size()>0)
         {
             //RandomGenerator randomGenerator = new RandomGenerator();
@@ -66,18 +66,8 @@ public class Warrior extends Player {
             Enemy e=enemiesRange.get(randomValue);
             int attack=(int)ABILITY_HIT*this.health.getCapacity();
             this.visit(e,attack);
-
         }
-
 
     }
     //ABILITY_RANGE
-    public  List<Enemy> enemiesInRange(List<Enemy> enemies){
-        List<Enemy> ans=new ArrayList<>();
-        for(Enemy enemy:enemies){
-            if(this.position.range(enemy.getPosition())<3)
-                ans.add(enemy);
-        }
-        return ans;
-    }
 }

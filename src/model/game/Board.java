@@ -41,4 +41,8 @@ public class Board {
     {
         return enemies;
     }
+    public Player getPlayer()
+    {
+        return player;
+    }
 }

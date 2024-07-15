@@ -89,5 +89,12 @@ public class Player extends Unit {
     @Override
     public void onDeath() {
         //TODO: Implement onDeath
+        //just send out the message
     }
+
+    public void onGameTick() {
+    }
+
+    //new onTick
+
 }

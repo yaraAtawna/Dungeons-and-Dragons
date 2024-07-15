@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class TileFactory {
     private Player p;
@@ -29,7 +30,8 @@ public class TileFactory {
             'q', () -> new Enemy('q', "Enemy2", 15, 3, 3, 1),
             'T', () -> new Enemy('T', "Enemy3", 20, 2, 4, 2)
     );
-    public TileFactory(){
+    public TileFactory()
+    {
     }
 
     public Player producePlayer(int playerID){
@@ -55,4 +57,16 @@ public class TileFactory {
     public Tile produceWall(Position p){
         return new Wall().initialize(p);
     }
+
+    //new
+    public List<Player> getListPlayers() {
+        return playerTypes.stream().map(Supplier::get).collect(Collectors.toList());
+    }
+    //new
+    public List<Enemy> getEnemyList() {
+        return enemyTypes.values().stream()
+                .map(Supplier::get)
+                .collect(Collectors.toList());
+    }
+
 }

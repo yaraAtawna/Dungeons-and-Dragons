@@ -31,4 +31,7 @@ public class Enemy extends Unit {
         }
     }
 
+    public void onGameTick() {
+        need to implement!
+    }
 }

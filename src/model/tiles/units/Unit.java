@@ -11,6 +11,9 @@ import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Unit extends Tile {
     protected String name;
     protected Health health;
@@ -42,7 +45,9 @@ public abstract class Unit extends Tile {
     }
 
     public int attack(){
+
         return generator.generate(attack);
+        //message
     }
 
     public int defend(){
@@ -97,8 +102,16 @@ public abstract class Unit extends Tile {
             case RIGHT -> y++;
         }
         Position newPosition=new Position(x,y);
-        //interact(board.get(newPosition));
+        interact(board.get(newPosition));
         //how to access board??
+    }
+    public List<Enemy> enemiesInRange(List<Enemy> enemies,int range){
+        List<Enemy> ans=new ArrayList<>();
+        for(Enemy enemy:enemies){
+            if(this.position.range(enemy.getPosition())<range)
+                ans.add(enemy);
+        }
+        return ans;
     }
 
 
