@@ -55,7 +55,7 @@ public class LevelInitializer {
         List<Enemy> enemies = new ArrayList<>();
         Player player = null;
 
-         levelsNum=lines.size();
+        levelsNum=lines.size();
 
         int x=0;
         int y=0;

@@ -1,5 +1,6 @@
 package model.tiles.units.enemies;
 
+import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
 
@@ -31,7 +32,7 @@ public class Enemy extends Unit {
         }
     }
 
-    public void onGameTick() {
-        need to implement!
-    }
+
+//    public void onGameTick(Player player) {
+//    }
 }

@@ -1,5 +1,6 @@
 package model.tiles.units.players;
 
+import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.Position;
 
@@ -50,6 +51,12 @@ public class Mage extends  Player{
 
         }
         return "Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range";
+    }
+    public void onTick(Tile tile) {
+        super.onTick(tile);
+        //not sure
+        this.current_mana=Math.min(this.current_mana*level,this.manaPool);
+
     }
 
 }

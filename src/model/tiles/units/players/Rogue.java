@@ -1,5 +1,6 @@
 package model.tiles.units.players;
 
+import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class Rogue extends Player{
     public void refillEnergy(){
         this.Energy=ENERGY_MAX;
     }
-    public void GameTick(){
+    public void onTick(Tile tile){
+        super.onTick(tile);
         this.Energy = Math.min(this.Energy+10,ENERGY_MAX);
     }
     public String castAbility() {

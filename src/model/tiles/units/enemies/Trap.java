@@ -1,5 +1,6 @@
 package model.tiles.units.enemies;
 
+import model.tiles.Tile;
 import model.tiles.units.players.Player;
 
 public class Trap extends Enemy{
@@ -14,7 +15,7 @@ public class Trap extends Enemy{
         this.ticksCounter=0;
         this.isVisible=true;
     }
-    public void onTick()
+    public void onTick( Tile tile)
     {
         isVisible = ticksCounter < VisibilityTime;
         if(ticksCounter == VisibilityTime + InvisibilityTime)

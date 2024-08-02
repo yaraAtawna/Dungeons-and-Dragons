@@ -114,6 +114,9 @@ public abstract class Unit extends Tile {
         return ans;
     }
 
+    public void onTick(Tile tile){
+        interact(tile);
+    }
 
 
 }

@@ -45,4 +45,13 @@ public class Board {
     {
         return player;
     }
+    public Tile getTile(Position p)
+    {
+        return board.get(p);
+    }
+    public void update(Position p, Tile t)
+    {
+        board.put(p,t);
+    }
+
 }

@@ -1,6 +1,7 @@
 package model.tiles.units.players;
 
 import  model.game.Board;
+import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.generators.RandomGenerator;
 
@@ -39,13 +40,14 @@ public class Warrior extends Player {
     }
 
     //need to take argument?
-    public void onGameTick()
+    public void onTick(Tile tile)
     {
+        super.onTick(tile);
         this.remainingCooldown=Math.min(0,this.remainingCooldown-1);
     }
 
     //enemies list from board! change argument?
-    public void abilityCast(List<Enemy> enemies)
+    public void castAbility(List<Enemy> enemies)
     {
         /*
         remaining cooldown ← ability cooldown

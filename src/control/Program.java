@@ -15,14 +15,13 @@ public class Program {
 
             System.exit(-1);
         }
-        int currLevel=0;
+        //int currLevel=0;
         /*get index from user (read linr from console)
         get the player from players list bt the index */
         //first print!
-        Scanner scanner = new Scanner(System.in);
-        int playerIndex = scanner.nextInt();
-
-        Game game = new Game(args[0],playerIndex);
+        //Scanner scanner = new Scanner(System.in);
+        //int playerIndex = scanner.nextInt();
+        Game game = new Game(args[0]);
         game.start();
 
     }

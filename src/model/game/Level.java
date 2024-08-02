@@ -1,9 +1,13 @@
 package model.game;
 
+import control.initializers.TileFactory;
+import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
+import utils.Position;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Level
 {
@@ -22,22 +26,91 @@ public class Level
 
     // update 15/7
     public void start() {
+
         while (!levelIsOver() && !gameIsOver()) {
             // onGameTick for each enemy and for player
-            for (Enemy enemy : enemies) {
-                enemy.onGameTick();
+            //player.onGameTick();
+            playerTick(player, board, enemies);
+
+            for (Enemy enemy: board.getEnemies())
+            {
+                if (enemy.isDead()){
+                    TileFactory factory = new TileFactory();
+                    board.update(enemy.getPosition(),factory.produceEmpty(enemy.getPosition()));
+                    board.getEnemies().remove(enemy);
+                    //enemy.setEnemyDeathCallBack();
+                }
             }
-            player.onGameTick();
+            if ((player.isDead())) {
+                //player.setPlayerDeathCallBack();
+                return;
+            }
+            for (Enemy enemy : enemies) {
+                enemy.onTick(player);
+            }
+            printBoard();
         }
     }
 
+    private void playerTick(Player p, Board board, List<Enemy> enemyList) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            char command=scanner.next().charAt(0);
+            Position pos = p.getPosition();
+            Position newPos;
+            int x = pos.getX();
+            int y = pos.getY();
+            switch (command) {
+                case 'w': // up
+                    y++;
+                    newPos = new Position(x, y);
+                    move(board, p, newPos);
+                    break;
+                case 's': // down
+                    y--;
+                    newPos = new Position(x, y);
+                    move(board, p, newPos);
+                    break;
+                case 'a': //left
+                    //Move(board, p, LEFT);
+                    x--;
+                    newPos = new Position(x, y);
+                    move(board, p, newPos);
+                    break;
+                case 'd': // right
+                    x++;
+                    newPos = new Position(x, y);
+                    move(board, p, newPos);
+                    break;
+                case 'e': // cast
+                    try {
+                        player.castAbility(enemyList);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void move(Board board, Player p, Position pos)
+    {
+        Tile tile = board.getTile(pos);
+        player.onTick(tile);
+    }
+    private void printBoard() {
+    }
+
     private boolean levelIsOver() {
-         Define logic to determine if the level is over
+
         return false;
     }
 
     private boolean gameIsOver() {
-         Define logic to determine if the game is over
         return false;
     }
 
@@ -54,4 +127,4 @@ public class Level
     }
      public void setPlayer(Player player) {
         this.player = player;
-}
+}   }

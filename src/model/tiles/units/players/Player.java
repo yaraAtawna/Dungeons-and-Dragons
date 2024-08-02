@@ -1,5 +1,6 @@
 package model.tiles.units.players;
 
+import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
 
@@ -92,7 +93,10 @@ public class Player extends Unit {
         //just send out the message
     }
 
-    public void onGameTick() {
+    public void onTick(Tile tile)
+    {
+        super.onTick(tile);
+
     }
 
     //new onTick

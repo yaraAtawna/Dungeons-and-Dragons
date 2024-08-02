@@ -1,5 +1,6 @@
 package model.tiles.units.enemies;
 
+import model.tiles.Tile;
 import model.tiles.units.players.Player;
 import utils.generators.RandomGenerator;
 
@@ -11,8 +12,10 @@ public class Monster extends Enemy{
     }
 
     //correct argument???????
-    public void onTick(Player p)
+    public void onTick( Tile tile)
     {
+        //not sure about this
+        Player p = (Player) tile;
         double range=this.position.range(p.getPosition());
         if(range<vision)
         {
