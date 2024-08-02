@@ -9,5 +9,7 @@ public class Main {
                 .initialize(new Position(0, 0), new FixedGenerator(), () -> System.out.println("Player died"), System.out::println);
         System.out.println("Hello world!");
         //new game
+
+        // delete this?
     }
 }

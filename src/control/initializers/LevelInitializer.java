@@ -41,7 +41,7 @@ public class LevelInitializer {
 
     }
     //new-return type Board
-    // update 15/7
+    // updated
     public Board initLevel(String levelPath){
         List<String> lines;
         try {
@@ -97,7 +97,7 @@ public class LevelInitializer {
 
     }
 
-    // update 15/7
+    // updated
     public int getLevelsNum()
     {
         return levelsNum;

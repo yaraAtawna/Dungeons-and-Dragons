@@ -41,4 +41,17 @@ public class Level
         return false;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+     public void setPlayer(Player player) {
+        this.player = player;
 }
