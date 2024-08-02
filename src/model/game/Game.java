@@ -40,7 +40,7 @@ public class Game
 
     }
 
-    // update 15/7
+    // update 3/8
     public void start()
     {
         printPlayersMenu();

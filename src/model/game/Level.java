@@ -24,7 +24,7 @@ public class Level
         this.board = board;
     }
 
-    // update 15/7
+    // update 3/8
     public void start() {
 
         while (!levelIsOver() && !gameIsOver()) {
@@ -51,7 +51,7 @@ public class Level
             printBoard();
         }
     }
-
+        //new
     private void playerTick(Player p, Board board, List<Enemy> enemyList) {
         try {
             Scanner scanner = new Scanner(System.in);
