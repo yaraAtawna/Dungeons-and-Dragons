@@ -99,6 +99,11 @@ public class Player extends Unit {
 
     }
 
+    public boolean isDead()
+    {
+        return !alive();
+    }
+
     //new onTick
 
 }

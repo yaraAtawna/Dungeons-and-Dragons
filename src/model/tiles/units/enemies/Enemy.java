@@ -32,6 +32,10 @@ public class Enemy extends Unit {
         }
     }
 
+    public boolean isDead() {
+        return !alive();
+    }
+
 
 //    public void onGameTick(Player player) {
 //    }
