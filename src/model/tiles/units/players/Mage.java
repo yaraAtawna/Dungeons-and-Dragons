@@ -4,6 +4,7 @@ import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.Position;
 
+import java.util.List;
 import java.util.Random;
 
 public class Mage extends  Player{
@@ -34,7 +35,7 @@ public class Mage extends  Player{
         this.current_mana=Math.min(this.current_mana+this.manaPool/4,this.manaPool);
         this.spellPower=this.spellPower+10*this.level;
     }
-    public String castAbility() {
+    public String castAbility(List<Enemy> enemies) {
         if (this.current_mana < this.mana_cost) {
             return "Not enough mana for Blizzard";
         }

@@ -4,7 +4,9 @@ import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
 
-public class Player extends Unit {
+import java.util.List;
+
+public abstract class Player extends Unit {
     public static final char PLAYER_TILE = '@';
     protected static final int LEVEL_REQUIREMENT = 50;
     protected static final int HEALTH_GAIN = 10;
@@ -15,7 +17,7 @@ public class Player extends Unit {
     protected int experience;
 
     protected String abilityName;
-
+    public abstract String castAbility(List<Enemy> enemies);
 
     public Player(String name, int hitPoints, int attack, int defense) {
         super(PLAYER_TILE, name, hitPoints, attack, defense);
@@ -99,10 +101,10 @@ public class Player extends Unit {
 
     }
 
-    public boolean isDead()
-    {
-        return !alive();
-    }
+//    public boolean isDead()
+//    {
+//        return !alive();
+//    }
 
     //new onTick
 

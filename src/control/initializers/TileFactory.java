@@ -40,9 +40,9 @@ public class TileFactory {
         return this.p;
     }
 
-    public Player producePlayer(){
-        return this.p;
-    }
+//    public Player producePlayer(){
+//        return this.p;
+//    }
 
     public Enemy produceEnemy(char tile, Position p, DeathCallback c, Generator g, MessageCallback m){
         Enemy e = enemyTypes.get(tile).get();

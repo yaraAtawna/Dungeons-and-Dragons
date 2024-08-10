@@ -5,6 +5,8 @@ import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
+import utils.callbacks.DeathCallback;
+import utils.callbacks.MessageCallback;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,20 +16,23 @@ public class Level
     private Player player;
     private List<Enemy> enemies;
     private Board board;
-
+ private MessageCallback messageCallback;
+    private DeathCallback deathCallback;
 
     // update 15/7
-    public Level( Board board)
+    public Level(Board board, MessageCallback messageCallback, DeathCallback deathCallback)
     {
         this.player = board.getPlayer();
         this.enemies = board.getEnemies();
         this.board = board;
+        this.messageCallback = messageCallback;
+        this.deathCallback = deathCallback;
     }
 
     // update 3/8
     public void start() {
 
-        while (!levelIsOver() && !gameIsOver()) {
+        while (!levelIsOver() && player.alive()) {
             // onGameTick for each enemy and for player
             //player.onGameTick();
             playerTick(player, board, enemies);
@@ -41,7 +46,7 @@ public class Level
                     //enemy.setEnemyDeathCallBack();
                 }
             }
-            if ((player.isDead())) {
+            if ((!player.alive())) {
                 //player.setPlayerDeathCallBack();
                 return;
             }
@@ -85,6 +90,7 @@ public class Level
                 case 'e': // cast
                     try {
                         player.castAbility(enemyList);
+                        //    public abstract void castAbility();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -103,16 +109,14 @@ public class Level
         player.onTick(tile);
     }
     private void printBoard() {
+        // Print the board
+        messageCallback.send(board.toString());
     }
 
     private boolean levelIsOver() {
-
-        return false;
+        return board.getEnemies().isEmpty();
     }
 
-    private boolean gameIsOver() {
-        return false;
-    }
 
     public Player getPlayer() {
         return player;

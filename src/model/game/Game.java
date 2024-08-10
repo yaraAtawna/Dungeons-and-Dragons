@@ -20,7 +20,7 @@ public class Game
 {
     private List<Path> levelPaths;
     private int currentLevelIndex;
-    private boolean gameIsOver;
+    //private boolean gameIsOver;
     private Board board;
     private List<File> filesOfLevels;
     private  int levelsNum;
@@ -28,43 +28,51 @@ public class Game
     private String path;
     private LevelInitializer levelInitializer;
     Scanner scanner ;
+    private MessageCallback messageCallback;
+    private DeathCallback deathCallback;
 
 
-    // update 15/7
+    //
     public Game(String path, MessageCallback messageCallback, DeathCallback deathCallback) {
         //this.levelPaths = levelPaths;
         this.currentLevelIndex = 0;
-        this.gameIsOver = false;
+        //this.gameIsOver = false;
         this.path=path;
         this.scanner = new Scanner(System.in);
+        this.messageCallback = messageCallback;
+        this.deathCallback = deathCallback;
 
     }
 
-    // update 3/8
+    //
     public void start()
     {
-        printPlayersMenu();
-        userChoosePlayer();
-        List<Path> levels=getAllFilesInDirectory(path);
+        printPlayersMenu(); //show the users the players menu
+        userChoosePlayer(); // the player choose his player
+        List<Path> levels=getAllFilesInDirectory(path); //get all the levels in the directory
         levelInitializer = new LevelInitializer(playerIndex, messageCallback,  deathCallback);
-
-        while (currentLevelIndex < levels.size() && !gameIsOver) {
+        while (currentLevelIndex < levels.size() && gameIsNotOver()) {
             // Load the next level
             loadLevel(levels.get(currentLevelIndex).toString());
+            //print the board
             printBoard();
-            Level level = new Level(board);
-
+            //initialize the level
+            Level level = new Level(board, messageCallback, deathCallback);
             // Start the level
             level.start();
-
             // Move to the next level
             currentLevelIndex++;
         }
     }
+    private boolean gameIsNotOver()
+    {
+        return board.getPlayer().alive();
 
+    }
     private void printBoard()
     {
         // Print the board
+        messageCallback.send(board.toString());
     }
 
     private void loadLevel(String LevPath)
@@ -84,6 +92,13 @@ public class Game
     private void printPlayersMenu()
     {
         // Print the players menu
+        messageCallback.send("Select player:");
+        messageCallback.send("1. Jon Snow             Health: 300/300         Attack: 30              Defense: 4              Level: 1               Experience: 0/50         Cooldown: 0/3");
+        messageCallback.send("2. The Hound            Health: 400/400         Attack: 20              Defense: 6              Level: 1               Experience: 0/50         Cooldown: 0/5");
+        messageCallback.send("3. Melisandre           Health: 100/100         Attack: 5               Defense: 1              Level: 1               Experience: 0/50         Mana: 75/300            Spell Power: 15");
+        messageCallback.send("4. Thoros of Myr        Health: 250/250         Attack: 25              Defense: 4              Level: 1               Experience: 0/50         Mana: 37/150            Spell Power: 20");
+        messageCallback.send("5. Arya Stark           Health: 150/150         Attack: 40              Defense: 2              Level: 1               Experience: 0/50         Energy: 100/100");
+        messageCallback.send("6. Bronn                Health: 250/250         Attack: 35              Defense: 3              Level: 1               Experience: 0/50         Energy: 100/100");
     }
     public static List<Path> getAllFilesInDirectory(String directoryPath) {
         try (Stream<Path> paths = Files.list(Paths.get(directoryPath))) {

@@ -47,7 +47,7 @@ public class Warrior extends Player {
     }
 
     //enemies list from board! change argument?
-    public void castAbility(List<Enemy> enemies)
+    public String castAbility(List<Enemy> enemies)
     {
         /*
         remaining cooldown ← ability cooldown
@@ -69,7 +69,7 @@ public class Warrior extends Player {
             int attack=(int)ABILITY_HIT*this.health.getCapacity();
             this.visit(e,attack);
         }
-
+    return " ";
     }
     //ABILITY_RANGE
 }

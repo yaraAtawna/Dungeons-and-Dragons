@@ -29,7 +29,7 @@ public class Rogue extends Player{
         super.onTick(tile);
         this.Energy = Math.min(this.Energy+10,ENERGY_MAX);
     }
-    public String castAbility() {
+    public String castAbility(List<Enemy> enemies) {
         if (this.Energy < this.cost) {
             return "Not enough energy for Fan of Knives";
         }
