@@ -2,12 +2,13 @@ package model.game;
 
 import control.initializers.TileFactory;
 import model.tiles.Tile;
+import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
 import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
-
+import utils.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,6 +28,7 @@ public class Level
         this.board = board;
         this.messageCallback = messageCallback;
         this.deathCallback = deathCallback;
+        boardController.gameBoard = board;
     }
 
     // update 3/8
@@ -65,37 +67,31 @@ public class Level
             Position newPos;
             int x = pos.getX();
             int y = pos.getY();
+            Tile t=null;
             switch (command) {
                 case 'w': // up
-                    y++;
-                    newPos = new Position(x, y);
-                    move(board, p, newPos);
+                     t=boardController.move(Unit.Direction.UP, p);
                     break;
                 case 's': // down
-                    y--;
-                    newPos = new Position(x, y);
-                    move(board, p, newPos);
+                    t=boardController.move(Unit.Direction.DOWN, p);
                     break;
                 case 'a': //left
-                    //Move(board, p, LEFT);
-                    x--;
-                    newPos = new Position(x, y);
-                    move(board, p, newPos);
+                    t=boardController.move(Unit.Direction.LEFT, p);
                     break;
                 case 'd': // right
-                    x++;
-                    newPos = new Position(x, y);
-                    move(board, p, newPos);
+                    t=boardController.move(Unit.Direction.RIGHT, p);
                     break;
                 case 'e': // cast
                     try {
-                        player.castAbility(enemyList);
+                        player.castAbility();
                         //    public abstract void castAbility();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
             }
+            if(t!=null)
+                player.onTick(t);
         }
         catch (Exception e)
         {
@@ -103,11 +99,6 @@ public class Level
         }
     }
 
-    private void move(Board board, Player p, Position pos)
-    {
-        Tile tile = board.getTile(pos);
-        player.onTick(tile);
-    }
     private void printBoard() {
         // Print the board
         messageCallback.send(board.toString());

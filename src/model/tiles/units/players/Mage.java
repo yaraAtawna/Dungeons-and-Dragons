@@ -3,12 +3,12 @@ package model.tiles.units.players;
 import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.Position;
+import utils.*  ;
 
 import java.util.List;
 import java.util.Random;
 
 public class Mage extends  Player{
-   // protected Position position;
     private int manaPool;
     private int mana_cost;
     private int spellPower;
@@ -35,24 +35,38 @@ public class Mage extends  Player{
         this.current_mana=Math.min(this.current_mana+this.manaPool/4,this.manaPool);
         this.spellPower=this.spellPower+10*this.level;
     }
-    public String castAbility(List<Enemy> enemies) {
+    public void castAbility() {
         if (this.current_mana < this.mana_cost) {
-            return "Not enough mana for Blizzard";
+            messageCallback.send("Not enough mana for Blizzard");
+            //return "Not enough mana for Blizzard";//delete this
         }
+        else {
         this.current_mana = this.current_mana - this.mana_cost;
         Random rand = new Random();
         int range = this.spellPower;
         int hits = 0;
-        //the code inside the while is not complete
+
         //a code to randomly hit the enemys in the range while the hits is smaller than hitCount
-        while (hits < hitCount /*&& thereIsAlliveEnemyInRange(range)*/) {
+        List<Enemy> enemyList = boardController.enemiesInRange(this, range);
+        while (hits < hitCount && enemyList.size() > 0) {
             hits++;
+            int randomValue = this.generator.generate(enemyList.size());
+            Enemy e = enemyList.get(randomValue);
 
-
-
+            int defense = e.defend();
+            int attack = spellPower;
+            int damage = defense - attack;
+            if (damage > 0) {
+                //not sure about this argument
+                e.takeDamage(spellPower);
+            } else {
+                e.onDeath();
+            }
+            hits++;
         }
-        return "Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range";
-    }
+        messageCallback.send("Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range");
+        //return "Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range";
+    } }
     public void onTick(Tile tile) {
         super.onTick(tile);
         //not sure

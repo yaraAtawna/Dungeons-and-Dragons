@@ -4,6 +4,7 @@ import  model.game.Board;
 import model.tiles.Tile;
 import model.tiles.units.enemies.Enemy;
 import utils.generators.RandomGenerator;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,6 @@ public class Warrior extends Player {
         int healthGain=this.level*LEVELUP_HEALTH;
         int attackGain=LEVELUP_ATTACK * this.level;
         int defenseGain =  LEVELUP_DEFENSE * this.level;;
-
         this.health.increaseMax(healthGain);
         this.attack += attackGain;
         this.defense += defenseGain;
@@ -47,29 +47,32 @@ public class Warrior extends Player {
     }
 
     //enemies list from board! change argument?
-    public String castAbility(List<Enemy> enemies)
-    {
+    public void castAbility() {
         /*
         remaining cooldown ← ability cooldown
         - current health ← min (current health + (10 × defense), health pool)
-         Randomly hits one enemy within range < 3 for an amount equals to 10% of the warrior’s
-           health pool
          */
-        this.remainingCooldown=this.cooldown;
-        int cap=this.health.getCurrent()+ABILITY_DEFENSE*this.defense;
-        int current=Math.min(cap,this.health.getCapacity());
+        this.remainingCooldown = this.cooldown;
+        int cap = this.health.getCurrent() + ABILITY_DEFENSE * this.defense;
+        int current = Math.min(cap, this.health.getCapacity());
         this.health.newCurrent(current);
+
         //randomly hits enemy
-        List<Enemy> enemiesRange=enemiesInRange(enemies,3);
-        if(enemiesRange.size()>0)
-        {
-            //RandomGenerator randomGenerator = new RandomGenerator();
+        List<Enemy> enemiesRange = boardController.enemiesInRange(this, ABILITY_RANGE);
+        if (enemiesRange.size() > 0) {
             int randomValue = this.generator.generate(enemiesRange.size());
-            Enemy e=enemiesRange.get(randomValue);
-            int attack=(int)ABILITY_HIT*this.health.getCapacity();
-            this.visit(e,attack);
+            Enemy e = enemiesRange.get(randomValue);
+            int defense = e.defend();
+            int attack = (int) ABILITY_HIT * this.health.getCapacity();
+            int damage = defense - attack;
+            if (damage > 0) {
+                e.takeDamage(damage);
+            } else {
+                e.onDeath();
+            }
+
         }
-    return " ";
+
     }
-    //ABILITY_RANGE
+
 }

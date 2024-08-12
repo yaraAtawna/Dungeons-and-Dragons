@@ -14,8 +14,9 @@ public class Board {
     private Player player;
     private List<Enemy> enemies;
     private final int width;
+    private final int height;
 
-    public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width){
+    public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width, int height){
         this.player = p;
         this.enemies = enemies;
         this.width = width;
@@ -23,6 +24,7 @@ public class Board {
         for(Tile t : tiles){
             board.put(t.getPosition(), t);
         }
+        this.height = height;
     }
 
     @Override
@@ -52,6 +54,15 @@ public class Board {
     public void update(Position p, Tile t)
     {
         board.put(p,t);
+    }
+    public int getWidth()
+    {
+        return width;
+    }
+    public int getHeight()
+    {
+        //fix this!
+        return height;
     }
 
 }

@@ -59,18 +59,21 @@ public abstract class Unit extends Tile {
     }
 
     public void battle(Unit enemy) {
+        //check this
+        messageCallback.send("battle");
         int attack = this.attack();
         int defense = enemy.defend();
         int damageTaken = enemy.health.takeDamage(attack - defense);
     }
 
     //new
-    public void battle(Unit enemy,int attack)
-    {
-        int defense = enemy.defend();
-        int damageTaken = enemy.health.takeDamage(attack - defense);
+//    public void battle(Unit enemy,int attack)
+//    {
+//        int defense = enemy.defend();
+//        int damageTaken = enemy.health.takeDamage(attack - defense);
+//
+//    }
 
-    }
 
     public void interact(Tile t){
         t.accept(this);
@@ -88,35 +91,18 @@ public abstract class Unit extends Tile {
     public abstract void visit(Enemy e);
 
     public void onDeath(){
+        health.newCurrent(0);
         deathCallback.onDeath();
     }
 
-    //new
-    public void move(Direction direction) {
-        int x = getPosition().getX();
-        int y = getPosition().getY();
-        switch (direction) {
-            case UP -> x--;
-            case DOWN -> x++;
-            case LEFT -> y--;
-            case RIGHT -> y++;
-        }
-        Position newPosition=new Position(x,y);
-        interact(board.get(newPosition));
-        //how to access board??
-    }
-    public List<Enemy> enemiesInRange(List<Enemy> enemies,int range){
-        List<Enemy> ans=new ArrayList<>();
-        for(Enemy enemy:enemies){
-            if(this.position.range(enemy.getPosition())<range)
-                ans.add(enemy);
-        }
-        return ans;
-    }
+
 
     public void onTick(Tile tile){
         interact(tile);
     }
 
+    public int takeDamage(int damage){
+        return health.takeDamage(damage);
+    }
 
 }

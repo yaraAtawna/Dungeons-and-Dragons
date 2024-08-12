@@ -38,4 +38,5 @@ public class Health {
         this.current = current;
 
     }
+
 }

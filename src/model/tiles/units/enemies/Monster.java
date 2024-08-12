@@ -3,7 +3,7 @@ package model.tiles.units.enemies;
 import model.tiles.Tile;
 import model.tiles.units.players.Player;
 import utils.generators.RandomGenerator;
-
+import utils.*;
 public class Monster extends Enemy{
     private int vision;
     public Monster(char tile, String name, int hitPoints, int attack, int defense, int experienceValue,int vision) {
@@ -12,11 +12,10 @@ public class Monster extends Enemy{
     }
 
     //correct argument???????
-    public void onTick( Tile tile)
+    public void onTick( Player p)
     {
-        //not sure about this
-        Player p = (Player) tile;
         double range=this.position.range(p.getPosition());
+        Tile tile=null;
         if(range<vision)
         {
             int dx=this.position.getX()-p.getPosition().getX();
@@ -25,20 +24,20 @@ public class Monster extends Enemy{
             {
                 if (dx > 0)
                 { //move left
-                    this.move(Direction.LEFT);
+                    tile=boardController.move(Direction.LEFT,this);
                      }
                 else {   //move right
-                    this.move(Direction.RIGHT);
+                    tile=boardController.move(Direction.RIGHT,this);
                 }
             }
             else
             {
                 if (dy > 0)
                 { //move up
-                    this.move(Direction.UP);
+                    tile=boardController.move(Direction.UP,this);
                 }
                 else {   //move down
-                    this.move(Direction.DOWN);
+                    tile=boardController.move(Direction.DOWN,this);
                 }
             }
         }
@@ -46,14 +45,20 @@ public class Monster extends Enemy{
         {
             //random move
             //RandomGenerator randomGenerator = new RandomGenerator();
-            int randomValue = this.generator.generate(3);
+            int randomValue = this.generator.generate(4);
             switch (randomValue)
             {
-                case 0 -> this.move(Direction.LEFT);
-                case 1 ->  this.move(Direction.RIGHT);
-                case 2 -> this.move(Direction.UP);
-                case 3 -> this.move(Direction.DOWN);
+                case 0 ->  tile=boardController.move(Direction.LEFT,this);
+                case 1 ->  tile=boardController.move(Direction.RIGHT,this);
+                case 2 -> tile=boardController.move(Direction.UP,this);
+                case 3 -> tile=boardController.move(Direction.DOWN,this);
+                case 4 -> {  //do nothing
+                }
+
             }
         }
+       // tile.acceptThis
+        if(tile!=null)
+        { this.interact(tile);}
     }
 }

@@ -6,7 +6,8 @@ import model.tiles.units.enemies.Enemy;
 
 import java.util.List;
 
-public abstract class Player extends Unit {
+public abstract class Player extends Unit
+{
     public static final char PLAYER_TILE = '@';
     protected static final int LEVEL_REQUIREMENT = 50;
     protected static final int HEALTH_GAIN = 10;
@@ -17,7 +18,7 @@ public abstract class Player extends Unit {
     protected int experience;
 
     protected String abilityName;
-    public abstract String castAbility(List<Enemy> enemies);
+    public abstract void castAbility();
 
     public Player(String name, int hitPoints, int attack, int defense) {
         super(PLAYER_TILE, name, hitPoints, attack, defense);
@@ -77,22 +78,13 @@ public abstract class Player extends Unit {
             e.onDeath();
         }
     }
-    //new , correct??
-    public void visit(Enemy e,int attack)
-    {
-        battle(e,attack);
-        if(!e.alive()){
-            addExperience(e.experienceValue());
-            e.onDeath();
-        }
-
-    }
-
 
     @Override
-    public void onDeath() {
+    public void onDeath()
+    {
         //TODO: Implement onDeath
         //just send out the message
+        messageCallback.send(String.format("%s died.", name));
     }
 
     public void onTick(Tile tile)
@@ -101,11 +93,5 @@ public abstract class Player extends Unit {
 
     }
 
-//    public boolean isDead()
-//    {
-//        return !alive();
-//    }
-
-    //new onTick
 
 }

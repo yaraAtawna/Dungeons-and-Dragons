@@ -67,7 +67,6 @@ public class LevelInitializer {
                     case '.':
                         // create empty tile
                         tiles.add(factory.produceEmpty(pos));
-
                         break;
                     case '#':
                         // create wall tile
@@ -82,7 +81,6 @@ public class LevelInitializer {
                     default:
                         // create enemy tile
                         // DeathCallback c, Generator g, MessageCallback m
-
                         Enemy enemy = factory.produceEnemy(c, pos, this.deathCallback, this.generator, this.messageCallback); // provide appropriate callbacks
                         enemies.add(enemy);
                         tiles.add(enemy);
@@ -93,7 +91,8 @@ public class LevelInitializer {
         }
         //List<Tile> tiles, Player p, List<Enemy> enemies, int width
         int width = lines.isEmpty() ? 0 : lines.get(0).length(); // Determine the width of the level
-        return new Board(tiles, player, enemies, width);
+        int highest = lines.size(); // Determine the height of the level
+        return new Board(tiles, player, enemies, width, highest);
 
     }
 
