@@ -4,7 +4,7 @@ import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.players.Player;
 
-public class Enemy extends Unit {
+public abstract class Enemy extends Unit {
     protected int experienceValue;
 
     public Enemy(char tile, String name, int hitPoints, int attack, int defense, int experienceValue) {
@@ -21,13 +21,13 @@ public class Enemy extends Unit {
         unit.visit(this);
     }
 
-    public void visit(Enemy e){
+    public void visit(Enemy e) {
         // Do nothing
     }
 
-    public void visit(Player p){
+    public void visit(Player p) {
         battle(p);
-        if (!p.alive()){
+        if (!p.alive()) {
             p.onDeath();
         }
     }
@@ -37,6 +37,8 @@ public class Enemy extends Unit {
     }
 
 
-//    public void onGameTick(Player player) {
-//    }
+    public void onTick(Player p)    {super.onTick(p);}
+
+
+
 }

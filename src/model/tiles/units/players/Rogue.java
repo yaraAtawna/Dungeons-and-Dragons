@@ -43,7 +43,7 @@ public class Rogue extends Player{ //not done
         {
             int defense = e.defend();
             int attack = this.attack;
-            int damage = defense - attack;
+            int damage = attack-defense;
             if (damage > 0) {
                 //not sure about this argument
                 e.takeDamage(damage);

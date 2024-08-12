@@ -42,7 +42,8 @@ public class Mage extends  Player{
         }
         else {
         this.current_mana = this.current_mana - this.mana_cost;
-        Random rand = new Random();
+        //
+            // Random rand = new Random();
         int range = this.spellPower;
         int hits = 0;
 
@@ -55,10 +56,10 @@ public class Mage extends  Player{
 
             int defense = e.defend();
             int attack = spellPower;
-            int damage = defense - attack;
+            int damage =attack- defense ;
             if (damage > 0) {
                 //not sure about this argument
-                e.takeDamage(spellPower);
+                e.takeDamage(attack);
             } else {
                 e.onDeath();
             }

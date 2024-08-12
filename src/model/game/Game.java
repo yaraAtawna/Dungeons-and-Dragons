@@ -10,11 +10,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+//import java.util.stream.Collectors;
+//import java.util.stream.Stream;
+import java.util.*;
 
 public class Game
 {
@@ -101,14 +104,34 @@ public class Game
         messageCallback.send("6. Bronn                Health: 250/250         Attack: 35              Defense: 3              Level: 1               Experience: 0/50         Energy: 100/100");
     }
     public static List<Path> getAllFilesInDirectory(String directoryPath) {
-        try (Stream<Path> paths = Files.list(Paths.get(directoryPath))) {
-            return paths.filter(Files::isRegularFile)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to list files in directory: " + directoryPath, e);
+        List<Path> paths = new ArrayList<>();
+        File directory = new File(directoryPath);
+        if (!directory.exists() || !directory.isDirectory()) {
+            throw new IllegalArgumentException("The provided path is not a valid directory.");
         }
+        // Regular expression to match files named "level<i>.txt"
+        Pattern pattern = Pattern.compile("level\\d+\\.txt");
+        // Get all files in the directory
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                // Check if the file matches the pattern
+                Matcher matcher = pattern.matcher(file.getName());
+                if (matcher.matches()) {
+                    paths.add(file.toPath());
+                }
+            }
+        }
+
+        return paths;
     }
 
+//        try (Stream<Path> paths = Files.list(Paths.get(directoryPath))) {
+//            return paths.filter(Files::isRegularFile)
+//                    .collect(Collectors.toList());
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to list files in directory: " + directoryPath, e);
+//        }
 
 
 

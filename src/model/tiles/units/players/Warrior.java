@@ -52,27 +52,31 @@ public class Warrior extends Player {
         remaining cooldown ← ability cooldown
         - current health ← min (current health + (10 × defense), health pool)
          */
-        this.remainingCooldown = this.cooldown;
-        int cap = this.health.getCurrent() + ABILITY_DEFENSE * this.defense;
-        int current = Math.min(cap, this.health.getCapacity());
-        this.health.newCurrent(current);
-
-        //randomly hits enemy
-        List<Enemy> enemiesRange = boardController.enemiesInRange(this, ABILITY_RANGE);
-        if (enemiesRange.size() > 0) {
-            int randomValue = this.generator.generate(enemiesRange.size());
-            Enemy e = enemiesRange.get(randomValue);
-            int defense = e.defend();
-            int attack = (int) ABILITY_HIT * this.health.getCapacity();
-            int damage = defense - attack;
-            if (damage > 0) {
-                e.takeDamage(damage);
-            } else {
-                e.onDeath();
-            }
-
+        if(this.remainingCooldown>0){
+            messageCallback.send("You cant cast  special ability");
         }
+        else {
+            this.remainingCooldown = this.cooldown;
+            int cap = this.health.getCurrent() + ABILITY_DEFENSE * this.defense;
+            int current = Math.min(cap, this.health.getCapacity());
+            this.health.newCurrent(current);
 
+            //randomly hits enemy
+            List<Enemy> enemiesRange = boardController.enemiesInRange(this, ABILITY_RANGE);
+            if (enemiesRange.size() > 0) {
+                int randomValue = this.generator.generate(enemiesRange.size());
+                Enemy e = enemiesRange.get(randomValue);
+                int defense = e.defend();
+                int attack = (int) ABILITY_HIT * this.health.getCapacity();
+                int damage = attack - defense;
+                if (damage > 0) {
+                    e.takeDamage(damage);
+                } else {
+                    e.onDeath();
+                }
+
+            }
+        }
     }
 
 }

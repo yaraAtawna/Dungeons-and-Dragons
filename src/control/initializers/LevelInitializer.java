@@ -49,12 +49,10 @@ public class LevelInitializer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         //new
         List<Tile> tiles = new ArrayList<>();
         List<Enemy> enemies = new ArrayList<>();
         Player player = null;
-
         levelsNum=lines.size();
 
         int x=0;
