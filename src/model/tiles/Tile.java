@@ -32,4 +32,9 @@ public abstract class Tile {
     public Position getPosition() {
         return position;
     }
+    public Tile setTile(char c)
+    {
+        this.tile = c;
+        return this;
+    }
 }

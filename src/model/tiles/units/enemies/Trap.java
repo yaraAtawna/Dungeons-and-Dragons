@@ -37,4 +37,9 @@ public class Trap extends Enemy{
 
         this.visit(p);
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
 }

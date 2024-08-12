@@ -61,4 +61,9 @@ public class Monster extends Enemy{
         if(tile!=null)
         { this.interact(tile);}
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
 }

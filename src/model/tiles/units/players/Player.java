@@ -3,6 +3,8 @@ package model.tiles.units.players;
 import model.tiles.Tile;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
+import utils.Position;
+import utils.boardController;
 
 import java.util.List;
 
@@ -72,10 +74,13 @@ public abstract class Player extends Unit
 
     //visit=battle
     public void visit(Enemy e){
+        Position pos = e.getPosition();
         battle(e);
         if(!e.alive()){
             addExperience(e.experienceValue());
-            e.onDeath();
+            boardController.swapPos(this, pos);
+            this.position.setPos(pos.getX(), pos.getY());
+            messageCallback.send(String.format("%s enemy died.", name));
         }
     }
 
@@ -84,7 +89,8 @@ public abstract class Player extends Unit
     {
         //TODO: Implement onDeath
         //just send out the message
-        messageCallback.send(String.format("%s died.", name));
+        health.newCurrent(0);
+        deathCallback.onDeath(String.format("%s player died.", name));
     }
 
     public void onTick(Tile tile)

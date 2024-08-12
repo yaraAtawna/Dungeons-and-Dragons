@@ -38,7 +38,14 @@ public abstract class Enemy extends Unit {
 
 
     public void onTick(Player p)    {super.onTick(p);}
+    public void onDeath()
+    {
+        //TODO: Implement onDeath
+        health.newCurrent(0);
+        //isAlive = false;
+        messageCallback.send(String.format("%s enemy died.", name));
 
+    }
 
 
 }

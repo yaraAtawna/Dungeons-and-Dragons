@@ -64,5 +64,17 @@ public class Board {
         //fix this!
         return height;
     }
+    public  void swapPos(Tile t,Position position)
+    {
+        enemies.remove(board.get(position));
+        board.remove(t.getPosition());
+        board.remove(position);
+        board.put(position,t);
+
+    }
+    public void remove(Enemy enemy)
+    {
+        enemies.remove(enemy);
+    }
 
 }

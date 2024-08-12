@@ -33,6 +33,10 @@ public class boardController {
         return tile;
     }
 
+    public static void swapPos(Tile t,Position position)
+    {
+        gameBoard.swapPos(t,position);
+    }
 
     public static List<Enemy> enemiesInRange(Player p, int range){
         List<Enemy> ans=new ArrayList<>();

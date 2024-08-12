@@ -27,6 +27,12 @@ public class Rogue extends Player{ //not done
     public void refillEnergy(){
         this.Energy=ENERGY_MAX;
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
+
     public void onTick(Tile tile){
         super.onTick(tile);
         this.Energy = Math.min(this.Energy+10,ENERGY_MAX);

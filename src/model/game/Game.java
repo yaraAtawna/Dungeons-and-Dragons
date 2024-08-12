@@ -61,6 +61,7 @@ public class Game
             printBoard();
             //initialize the level
             Level level = new Level(board, messageCallback, deathCallback);
+            messageCallback.send("staring new Level " + (currentLevelIndex + 1));
             // Start the level
             level.start();
             // Move to the next level

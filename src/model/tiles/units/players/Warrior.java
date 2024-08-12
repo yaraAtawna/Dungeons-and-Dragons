@@ -39,6 +39,11 @@ public class Warrior extends Player {
         this.defense += defenseGain;
     }
 
+    @Override
+    public String description() {
+        return null;
+    }
+
     //need to take argument?
     public void onTick(Tile tile)
     {

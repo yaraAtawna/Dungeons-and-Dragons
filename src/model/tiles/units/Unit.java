@@ -89,11 +89,12 @@ public abstract class Unit extends Tile {
 
     public abstract void visit(Player p);
     public abstract void visit(Enemy e);
+    public abstract String description();
 
-    public void onDeath(){
-        health.newCurrent(0);
-        deathCallback.onDeath();
-    }
+    public abstract void onDeath() ;
+//        health.newCurrent(0);
+//        deathCallback.onDeath();
+
 
 
 
@@ -104,5 +105,6 @@ public abstract class Unit extends Tile {
     public int takeDamage(int damage){
         return health.takeDamage(damage);
     }
+
 
 }

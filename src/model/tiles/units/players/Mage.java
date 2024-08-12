@@ -68,6 +68,12 @@ public class Mage extends  Player{
         messageCallback.send("Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range");
         //return "Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range";
     } }
+
+    @Override
+    public String description() {
+        return null;
+    }
+
     public void onTick(Tile tile) {
         super.onTick(tile);
         //not sure
