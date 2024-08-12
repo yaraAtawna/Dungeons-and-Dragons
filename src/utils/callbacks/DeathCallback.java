@@ -1,5 +1,5 @@
 package utils.callbacks;
 
 public interface DeathCallback {
-    void onDeath(String message);
+    void onDeath();
 }

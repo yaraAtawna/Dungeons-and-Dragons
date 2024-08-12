@@ -90,6 +90,10 @@ public class LevelInitializer {
         //List<Tile> tiles, Player p, List<Enemy> enemies, int width
         int width = lines.isEmpty() ? 0 : lines.get(0).length(); // Determine the width of the level
         int highest = lines.size(); // Determine the height of the level
+        //test
+        String test="width: "+width+" highest: "+highest;
+        messageCallback.send("test in LevelInitializer: ");
+        messageCallback.send(test)  ;
         return new Board(tiles, player, enemies, width, highest);
 
     }

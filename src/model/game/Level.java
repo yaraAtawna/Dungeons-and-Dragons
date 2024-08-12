@@ -57,15 +57,13 @@ public class Level
             }
             enemysDead();
             printBoard();
-            printCombatInfo();
+            //printCombatInfo();
             //(Whole stats for both units, attack roll, defense roll, damage taken, death and
             //experience gained)
         }
     }
 
-    private void printCombatInfo() {
-        //need to implement
-    }
+
 
     //new
     public Tile getTile() {

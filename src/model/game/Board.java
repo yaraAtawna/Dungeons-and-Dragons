@@ -29,13 +29,42 @@ public class Board {
 
     @Override
     public String toString() {
+        System.out.println("testing Board toString");
         StringBuilder sb = new StringBuilder();
+        String [][] boardArray = new String[width][height];
         for(Map.Entry<Position, Tile> entry : board.entrySet()){
-            sb.append(entry.getValue().toString());
-            if(entry.getKey().getX() == width-1){
-                sb.append("\n");
-            }
+            boardArray[entry.getValue().getPosition().getX()-1][entry.getValue().getPosition().getY()-1]=(entry.getValue().toString());
         }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++)
+            {
+                sb.append(boardArray[x][y]);
+            }
+
+            }
+
+//        for(Map.Entry<Position, Tile> entry : board.entrySet()){
+//            sb.append(entry.getValue().toString());
+//            if(entry.getKey().getX() == width-1){
+//                System.out.println("new line");
+//                sb.append("\n");
+//            }
+//        }
+
+//        for (int y = 0; y < height; y++) {
+//            for (int x = 0; x < width; x++) {
+//                Position pos = new Position(x, y);
+//                Tile tile = board.get(pos);
+//                if (tile != null) {
+//                    sb.append(tile.toString());
+//                } else {
+//                    //sb.append(" "); // Use space for empty positions
+//                }
+//            }
+//            //                System.out.println("new line");
+//            sb.append("\n"); // Newline after each row
+//        }
+
         return sb.toString();
     }
     //new

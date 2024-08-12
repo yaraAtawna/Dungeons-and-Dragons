@@ -91,7 +91,7 @@ public abstract class Player extends Unit
         //TODO: Implement onDeath
         //just send out the message
         health.newCurrent(0);
-        deathCallback.onDeath(String.format("%s player died.", name));
+        deathCallback.onDeath();
     }
 
     public void onTick(Tile tile)

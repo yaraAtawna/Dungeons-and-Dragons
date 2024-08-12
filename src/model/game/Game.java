@@ -33,6 +33,7 @@ public class Game
     Scanner scanner ;
     private MessageCallback messageCallback;
     private DeathCallback deathCallback;
+    private boolean gameIsOver;
 
 
     //
@@ -44,6 +45,7 @@ public class Game
         this.scanner = new Scanner(System.in);
         this.messageCallback = messageCallback;
         this.deathCallback = deathCallback;
+        gameIsOver=false;
 
     }
 
@@ -54,7 +56,7 @@ public class Game
         userChoosePlayer(); // the player choose his player
         List<Path> levels=getAllFilesInDirectory(path); //get all the levels in the directory
         levelInitializer = new LevelInitializer(playerIndex, messageCallback,  deathCallback);
-        while (currentLevelIndex < levels.size() && gameIsNotOver()) {
+        while (currentLevelIndex < levels.size() && gameIsOver==false) {
             // Load the next level
             loadLevel(levels.get(currentLevelIndex).toString());
             //print the board
@@ -66,11 +68,13 @@ public class Game
             level.start();
             // Move to the next level
             currentLevelIndex++;
+            gameIsOver=gameIsOver();
         }
     }
-    private boolean gameIsNotOver()
+    private boolean gameIsOver()
     {
-        return board.getPlayer().alive();
+
+        return !board.getPlayer().alive();
 
     }
     private void printBoard()
