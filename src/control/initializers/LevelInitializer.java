@@ -55,9 +55,10 @@ public class LevelInitializer {
         Player player = null;
         levelsNum=lines.size();
 
-        int x=0;
+        //int x=0;
         int y=0;
         for(String line : lines){
+            int x=0;
             for(char c : line.toCharArray()){
                 Position pos = new Position(x, y);
                 x++;
@@ -84,6 +85,7 @@ public class LevelInitializer {
                         tiles.add(enemy);
                         break;
                 }
+
             }
             y++;
         }
@@ -91,9 +93,9 @@ public class LevelInitializer {
         int width = lines.isEmpty() ? 0 : lines.get(0).length(); // Determine the width of the level
         int highest = lines.size(); // Determine the height of the level
         //test
-        String test="width: "+width+" highest: "+highest;
-        messageCallback.send("test in LevelInitializer: ");
-        messageCallback.send(test)  ;
+//        String test="width: "+width+" highest: "+highest;
+//        messageCallback.send("test in LevelInitializer: ");
+//        messageCallback.send(test)  ;
         return new Board(tiles, player, enemies, width, highest);
 
     }

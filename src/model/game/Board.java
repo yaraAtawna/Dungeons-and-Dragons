@@ -29,44 +29,34 @@ public class Board {
 
     @Override
     public String toString() {
-        System.out.println("testing Board toString");
+        //System.out.println("testing Board toString");
         StringBuilder sb = new StringBuilder();
-        String [][] boardArray = new String[width][height];
-        for(Map.Entry<Position, Tile> entry : board.entrySet()){
-            boardArray[entry.getValue().getPosition().getX()-1][entry.getValue().getPosition().getY()-1]=(entry.getValue().toString());
+        //initialize boardArray
+        String [][] boardArray = new String[height][width];
+        for (int y = 0; y < height; y=y+1) {
+            for (int x = 0; x < width; x = x + 1) {
+                boardArray[y][x] = ".";
+            }
         }
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++)
-            {
-                sb.append(boardArray[x][y]);
+        //System.out.println("testing Board 2");
+
+        //fill boardArray with tiles
+        for (Map.Entry<Position, Tile> entry : board.entrySet()) {
+            Tile t=entry.getValue();
+            boardArray[t.getPosition().getY()][t.getPosition().getX()]=t.toString();
+        }
+
+        //print boardArray
+        for (String[] line : boardArray) {
+            for (String block : line) {
+                sb.append(block);
             }
-
-            }
-
-//        for(Map.Entry<Position, Tile> entry : board.entrySet()){
-//            sb.append(entry.getValue().toString());
-//            if(entry.getKey().getX() == width-1){
-//                System.out.println("new line");
-//                sb.append("\n");
-//            }
-//        }
-
-//        for (int y = 0; y < height; y++) {
-//            for (int x = 0; x < width; x++) {
-//                Position pos = new Position(x, y);
-//                Tile tile = board.get(pos);
-//                if (tile != null) {
-//                    sb.append(tile.toString());
-//                } else {
-//                    //sb.append(" "); // Use space for empty positions
-//                }
-//            }
-//            //                System.out.println("new line");
-//            sb.append("\n"); // Newline after each row
-//        }
-
+            //System.out.println("new line");
+            sb.append("\n");
+        }
         return sb.toString();
     }
+
     //new
     public  List<Enemy> getEnemies()
     {
