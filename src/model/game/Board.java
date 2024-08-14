@@ -1,6 +1,8 @@
 package model.game;
 
+import control.initializers.TileFactory;
 import model.tiles.Tile;
+import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.players.Player;
 import utils.Position;
@@ -15,8 +17,9 @@ public class Board {
     private List<Enemy> enemies;
     private final int width;
     private final int height;
+    private TileFactory tileFactory;
 
-    public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width, int height){
+    public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width, int height,TileFactory tileFactory) {
         this.player = p;
         this.enemies = enemies;
         this.width = width;
@@ -25,6 +28,7 @@ public class Board {
             board.put(t.getPosition(), t);
         }
         this.height = height;
+        this.tileFactory=tileFactory;
     }
 
     @Override
@@ -83,7 +87,7 @@ public class Board {
         //fix this!
         return height;
     }
-    public  void swapPos(Tile t,Position position)
+    public  void swapPosWithEnemy(Unit t, Position position)
     {
         enemies.remove(board.get(position));
         board.remove(t.getPosition());
@@ -91,9 +95,25 @@ public class Board {
         board.put(position,t);
 
     }
+    public  void swapPos(Tile t,Position position)
+    {
+
+        Position oldPos=t.getPosition();
+        Tile tile=board.get(position);
+        board.remove(oldPos);
+        board.remove(position);
+        board.put(position,t);
+        tile.getPosition().setPos(oldPos.getX(), oldPos.getY());
+        board.put(oldPos, tile);
+
+    }
     public void remove(Enemy enemy)
     {
         enemies.remove(enemy);
     }
 
+    public void addEmptyTile(Position position) {
+        Tile t=tileFactory.produceEmpty(position);
+        board.put(position,t);
+    }
 }

@@ -79,7 +79,7 @@ public abstract class Player extends Unit
         if(!e.alive()){
             messageCallback.send(String.format("%s you killed enemy.", name));
             addExperience(e.experienceValue());
-            boardController.swapPos(this, pos);
+            boardController.swapPosEnemy(this, pos);
             this.position.setPos(pos.getX(), pos.getY());
             //messageCallback.send(String.format("%s enemy died.", name));
         }

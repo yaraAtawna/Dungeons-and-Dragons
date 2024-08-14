@@ -24,6 +24,7 @@ public class Monster extends Enemy{
             {
                 if (dx > 0)
                 { //move left
+
                     tile=boardController.move(Direction.LEFT,this);
                      }
                 else {   //move right

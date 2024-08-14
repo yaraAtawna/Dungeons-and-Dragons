@@ -31,17 +31,29 @@ public class Level
         boardController.gameBoard = board;
     }
 
-    // update 3/8
     public void start() {
 
         while (!levelIsOver() && player.alive()) {
             // onGameTick for each enemy and for player
-            //player.onGameTick();
             Position p=player.getPosition();
+//            System.out.println("player position : "+p.getX() +", "+p.getY())  ;
             //player movement
             Tile t=getTile();
+//            if(t==null )
+//            {
+//                System.out.println("tile = null");
+//
+//            }
             if(t!=null)
-            {   player.onTick(t);
+            {
+//                System.out.println("player old position : "+player.getPosition().getX() +", "+player.getPosition().getY())  ;
+//                System.out.println("tile old position : "+t.getPosition().getX() +", "+t.getPosition().getY())  ;
+                player.onTick(t);
+//                System.out.println("player new position : "+player.getPosition().getX() +", "+player.getPosition().getY())  ;
+//                System.out.println("tile new position : "+t.getPosition().getX() +", "+t.getPosition().getY())  ;
+//
+//                System.out.println("tile : ");
+//                System.out.println(board.getTile(t.getPosition()));
                 if ((!player.alive()))
                 {
                   //player.setPlayerDeathCallBack();
@@ -51,15 +63,34 @@ public class Level
                  board.update(p,tile);
                  return;
                 }
+                //to do : create emptyTile and put in old pos in board!
+//                System.out.println("tile : ");
+                //System.out.println(board.getTile(t.getPosition()));
+//                Position pos = t.getPosition();
+//                if(board.getTile(pos)!=null)
+//                {
+//                    System.out.println("tile is not null");
+//                }
+//                else
+//                {
+//                    System.out.println("tile is null");
+                    //create empty tile
+//                }
+//                if(board.getTile(pos)==null)
+//                {
+//                    System.out.println("tile is still null");
+//                }
+
             }
-            for (Enemy enemy : enemies) {
+           // temporarily commented
+            for (Enemy enemy : enemies)
+            {
+                System.out.println("new enemy ")  ;
                 enemy.onTick(player);
             }
             enemysDead();
             printBoard();
-            //printCombatInfo();
-            //(Whole stats for both units, attack roll, defense roll, damage taken, death and
-            //experience gained)
+
         }
     }
 
@@ -73,20 +104,26 @@ public class Level
             Position pos = player.getPosition();
             int x = pos.getX();
             int y = pos.getY();
-            Position newPos=new Position(x,y);
+            //Position newPos=new Position(x,y);
             Tile t=null;
+//            System.out.println("getTile in level : ");
+//            System.out.println("current : " + x+" ,"+y);
             switch (command) {
                 case 'w': // up
-                    y++;
+                    y--;
+//                    System.out.println("up " + x + "  " + y);
                     break;
                 case 's': // down
-                    y--;
+                    y++;
+//                    System.out.println("down " + x + " " + y);
                     break;
                 case 'a': //left
                     x--;
+//                    System.out.println("left " + x + "  " + y);
                     break;
                 case 'd': // right
                     x++;
+//                    System.out.println("right " + x + "  " + y);
                     break;
                 case 'e': // cast
                     try {
@@ -96,6 +133,17 @@ public class Level
                     }
                     break;
             }
+            t=board.getTile(new Position(x,y));
+            if(t==null && command!='e' && x<board.getWidth() && y<board.getHeight() && x>=0 && y>=0)
+            {
+                Position p=new Position(x,y);
+                //System.out.println("tile is null");
+                board.addEmptyTile(p);
+                t=board.getTile(p);
+            }
+//            {
+//                System.out.println("tile is null");
+//            }
             return t;
         }
         catch (Exception e)
@@ -111,8 +159,8 @@ public class Level
         {
             if (enemy.isDead()){
                 TileFactory factory = new TileFactory();
-                board.update(enemy.getPosition(),factory.produceEmpty(enemy.getPosition()));
                 board.remove(enemy);
+                board.update(enemy.getPosition(),factory.produceEmpty(enemy.getPosition()));
                 //enemy.setEnemyDeathCallBack();
             }
         }

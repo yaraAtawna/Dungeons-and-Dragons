@@ -76,6 +76,7 @@ public class LevelInitializer {
                         player = factory.producePlayer(playerID);
                         player.initialize(pos); // check!
                         tiles.add(player);
+                        //System.out.println("Player initialized at: "+pos.getX()+","+pos.getY());
                         break;
                     default:
                         // create enemy tile
@@ -96,7 +97,7 @@ public class LevelInitializer {
 //        String test="width: "+width+" highest: "+highest;
 //        messageCallback.send("test in LevelInitializer: ");
 //        messageCallback.send(test)  ;
-        return new Board(tiles, player, enemies, width, highest);
+        return new Board(tiles, player, enemies, width, highest,factory);
 
     }
 

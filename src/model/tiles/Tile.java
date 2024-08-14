@@ -2,6 +2,7 @@ package model.tiles;
 
 import model.tiles.units.Unit;
 import utils.Position;
+import utils.boardController;
 
 public abstract class Tile {
     protected char tile;
@@ -16,10 +17,10 @@ public abstract class Tile {
         return this;
     }
 
-    public void swapPosition(Tile t) {
-        Position temp = t.position;
-        t.position = this.position;
-        this.position = temp;
+    //swap with empty tile
+    public void swapPosition(Tile t,Position p) {
+        boardController.swapPosEmpty(this, p);
+
     }
 
     @Override

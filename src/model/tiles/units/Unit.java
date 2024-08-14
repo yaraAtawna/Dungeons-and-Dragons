@@ -10,6 +10,7 @@ import utils.Position;
 import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 import utils.generators.Generator;
+import utils.generators.RandomGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ public abstract class Unit extends Tile {
         this.health = new Health(hitPoints);
         this.attack = attack;
         this.defense = defense;
+        this.generator=new RandomGenerator();
+        this.messageCallback=s -> System.out.println(s);
+        this.deathCallback=()-> System.out.println("player died");
     }
 
     public Unit initialize(Position p, Generator generator, DeathCallback deathCallback, MessageCallback messageCallback){
@@ -76,11 +80,16 @@ public abstract class Unit extends Tile {
 
 
     public void interact(Tile t){
+
         t.accept(this);
     }
 
     public void visit(Empty e){
-        swapPosition(e);
+        int x = e.getPosition().getX();
+        int y = e.getPosition().getY();
+        swapPosition(this, e.getPosition());
+        this.position.setPos(x, y);
+
     }
 
     public void visit(Wall w){

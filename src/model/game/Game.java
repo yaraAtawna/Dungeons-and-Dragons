@@ -1,6 +1,7 @@
 package model.game;
 
 import control.initializers.LevelInitializer;
+import control.initializers.TileFactory;
 import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 

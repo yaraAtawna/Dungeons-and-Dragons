@@ -11,6 +11,8 @@ public class Empty extends Tile {
 
     @Override
     public void accept(Unit unit) {
+//        System.out.println("Empty.accept");
+//        System.out.println("position is " + this.position.getX() + ", " + this.position.getY());
         unit.visit(this);
     }
 }

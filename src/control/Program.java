@@ -11,12 +11,13 @@ import java.util.Scanner;
 // update 15/7
 public class Program {
     public static void main(String[] args) {
-        if (args.length == 0) {
-
-            System.exit(-1);
-        }
-
-        Game game = new Game(args[0],s -> System.out.println(s),() -> System.out.println("Player died"));
+//        if (args.length == 0) {
+//
+//            System.exit(-1);
+//        }
+        String path="C:\\Users\\yaraa\\OneDrive\\שולחן העבודה\\hw3\\out\\artifacts\\levels_dir\\"; //only for testing
+        //String path=args[0]; fo jar
+        Game game = new Game(path,s -> System.out.println(s),() -> System.out.println("Player died"));
         game.start();
 
     }
