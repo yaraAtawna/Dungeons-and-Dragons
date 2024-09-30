@@ -10,7 +10,7 @@ Players can choose from multiple character types, each with unique abilities.
 Features monsters and traps that the player must defeat.
 # Game Flow: 
 Players take turns with enemies, and the game continues until all levels are completed or the player dies.
-Controls
+
 # Key	Action
 w	Move up
 / s	Move down
