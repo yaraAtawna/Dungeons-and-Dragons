@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import model.tiles.units.enemies.Enemy;
+import model.tiles.units.enemies.Trap;
 import model.tiles.units.players.Player;
 import utils.Position;
 import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 import utils.generators.FixedGenerator;
 import utils.generators.Generator;
+import utils.generators.RandomGenerator;
 
 public class LevelInitializer {
     private static int playerID;
@@ -35,14 +37,14 @@ public class LevelInitializer {
         this.levelsNum=0;
         factory = new TileFactory();
         this.deathCallback = deathCallback;
-        this.generator = new FixedGenerator();
+        this.generator = new RandomGenerator();
         this.messageCallback = messageCallback;
 
 
     }
     //new-return type Board
     // updated
-    public Board initLevel(String levelPath){
+    public Board initLevel(String levelPath,Player player){
         List<String> lines;
         try {
             lines = Files.readAllLines(Paths.get(levelPath));
@@ -52,16 +54,18 @@ public class LevelInitializer {
         //new
         List<Tile> tiles = new ArrayList<>();
         List<Enemy> enemies = new ArrayList<>();
-        Player player = null;
+
+        //Player player = null;
         levelsNum=lines.size();
+        int column = lines.get(0).length();
 
         //int x=0;
-        int y=0;
+        int x=0;
         for(String line : lines){
-            int x=0;
+            int y=0;
             for(char c : line.toCharArray()){
                 Position pos = new Position(x, y);
-                x++;
+                y++;
                 switch(c) {
                     case '.':
                         // create empty tile
@@ -73,31 +77,28 @@ public class LevelInitializer {
                         break;
                     case '@':
                         // create player tile
-                        player = factory.producePlayer(playerID);
-                        player.initialize(pos); // check!
+                        player.initialize(pos);
                         tiles.add(player);
-                        //System.out.println("Player initialized at: "+pos.getX()+","+pos.getY());
+
                         break;
                     default:
                         // create enemy tile
                         // DeathCallback c, Generator g, MessageCallback m
+
                         Enemy enemy = factory.produceEnemy(c, pos, this.deathCallback, this.generator, this.messageCallback); // provide appropriate callbacks
                         enemies.add(enemy);
                         tiles.add(enemy);
+
                         break;
                 }
 
             }
-            y++;
+            x++;
         }
-        //List<Tile> tiles, Player p, List<Enemy> enemies, int width
         int width = lines.isEmpty() ? 0 : lines.get(0).length(); // Determine the width of the level
         int highest = lines.size(); // Determine the height of the level
-        //test
-//        String test="width: "+width+" highest: "+highest;
-//        messageCallback.send("test in LevelInitializer: ");
-//        messageCallback.send(test)  ;
-        return new Board(tiles, player, enemies, width, highest,factory);
+
+        return new Board(tiles, levelsNum, column, player, enemies, width, highest,factory);
 
     }
 
@@ -107,27 +108,5 @@ public class LevelInitializer {
         return levelsNum;
     }
 
-    /*
-    old version:
-     for(String line : lines){
-            for(char c : line.toCharArray()){
-                switch(c) {
-                    case '.':
-                        // create empty tile
-                        tiles.add(factory.produceEmpty(pos));
 
-                        break;
-                    case '#':
-                        // create wall tile
-                        break;
-                    case '@':
-                        // create player tile
-                        break;
-                    default:
-                        // create enemy tile
-                        break;
-                }
-            }
-        }
-     */
 }

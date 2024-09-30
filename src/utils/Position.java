@@ -1,6 +1,6 @@
 package utils;
 
-public class Position implements Comparable<Position> {
+public class Position  {
     private int x;
     private int y;
 
@@ -24,13 +24,10 @@ public class Position implements Comparable<Position> {
         this.x=x;
         this.y=y;
     }
+
+
     @Override
-    public int compareTo(Position other) {
-        // First compare by x, then by y if x values are equal
-        int cmp = Integer.compare(this.x, other.x);
-        if (cmp == 0) {
-            cmp = Integer.compare(this.y, other.y);
-        }
-        return cmp;
+    public String toString() {
+        return "(" + x + "," + y + ")";
     }
 }

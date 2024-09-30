@@ -2,6 +2,7 @@ package model.game;
 
 import control.initializers.LevelInitializer;
 import control.initializers.TileFactory;
+import model.tiles.units.players.Player;
 import utils.callbacks.DeathCallback;
 import utils.callbacks.MessageCallback;
 
@@ -35,18 +36,19 @@ public class Game
     private MessageCallback messageCallback;
     private DeathCallback deathCallback;
     private boolean gameIsOver;
+    private TileFactory factory;
 
 
     //
     public Game(String path, MessageCallback messageCallback, DeathCallback deathCallback) {
-        //this.levelPaths = levelPaths;
         this.currentLevelIndex = 0;
-        //this.gameIsOver = false;
         this.path=path;
         this.scanner = new Scanner(System.in);
         this.messageCallback = messageCallback;
         this.deathCallback = deathCallback;
         gameIsOver=false;
+        factory = new TileFactory();
+
 
     }
 
@@ -57,9 +59,12 @@ public class Game
         userChoosePlayer(); // the player choose his player
         List<Path> levels=getAllFilesInDirectory(path); //get all the levels in the directory
         levelInitializer = new LevelInitializer(playerIndex, messageCallback,  deathCallback);
+        Player player = factory.producePlayer(this.playerIndex);
+        // check!
+
         while (currentLevelIndex < levels.size() && gameIsOver==false) {
             // Load the next level
-            loadLevel(levels.get(currentLevelIndex).toString());
+            loadLevel(levels.get(currentLevelIndex).toString(),player);
             //print the board
             printBoard();
             //initialize the level
@@ -84,9 +89,9 @@ public class Game
         messageCallback.send(board.toString());
     }
 
-    private void loadLevel(String LevPath)
+    private void loadLevel(String LevPath, Player p)
     {
-        board = levelInitializer.initLevel(LevPath);
+        board = levelInitializer.initLevel(LevPath,p);
         this.levelsNum=levelInitializer.getLevelsNum();
     }
 
@@ -108,6 +113,7 @@ public class Game
         messageCallback.send("4. Thoros of Myr        Health: 250/250         Attack: 25              Defense: 4              Level: 1               Experience: 0/50         Mana: 37/150            Spell Power: 20");
         messageCallback.send("5. Arya Stark           Health: 150/150         Attack: 40              Defense: 2              Level: 1               Experience: 0/50         Energy: 100/100");
         messageCallback.send("6. Bronn                Health: 250/250         Attack: 35              Defense: 3              Level: 1               Experience: 0/50         Energy: 100/100");
+        messageCallback.send("7. Ygritte              Health: 220/220         Attack: 30              Defense: 2              Level: 1               Experience: 0/50         Arrows: 10            Range: 6");
     }
     public static List<Path> getAllFilesInDirectory(String directoryPath) {
         List<Path> paths = new ArrayList<>();
@@ -132,12 +138,6 @@ public class Game
         return paths;
     }
 
-//        try (Stream<Path> paths = Files.list(Paths.get(directoryPath))) {
-//            return paths.filter(Files::isRegularFile)
-//                    .collect(Collectors.toList());
-//        } catch (IOException e) {
-//            throw new RuntimeException("Failed to list files in directory: " + directoryPath, e);
-//        }
 
 
 

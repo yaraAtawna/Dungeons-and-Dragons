@@ -10,6 +10,7 @@ public abstract class Tile {
 
     public Tile(char tile){
         this.tile = tile;
+        position = new Position(-1, -1);
     }
 
     public Tile initialize(Position p){
@@ -37,5 +38,8 @@ public abstract class Tile {
     {
         this.tile = c;
         return this;
+    }
+    public void updatePosition(int x, int y){
+        this.position.setPos(x, y);
     }
 }

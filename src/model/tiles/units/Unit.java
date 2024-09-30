@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Unit extends Tile {
-    protected String name;
+    public String name;
     protected Health health;
     protected int attack;
     protected int defense;
@@ -49,13 +49,16 @@ public abstract class Unit extends Tile {
     }
 
     public int attack(){
-
-        return generator.generate(attack);
+        int TempAttack = generator.generate(this.attack+1);
+        messageCallback.send(this.name +" rolled " + TempAttack+ " attack points.");
+        return TempAttack;
         //message
     }
 
     public int defend(){
-        return generator.generate(defense);
+        int TempDefense = generator.generate(this.defense+1);
+        messageCallback.send(this.name +" rolled "+TempDefense+ " defense points.");
+        return TempDefense;
     }
 
     public boolean alive(){
@@ -63,20 +66,31 @@ public abstract class Unit extends Tile {
     }
 
     public void battle(Unit enemy) {
-        //check this
-        messageCallback.send("battle");
+
+        messageCallback.send(this.name+"  engaged in combat with "+enemy.name);
+        messageCallback.send(this.description());
+        messageCallback.send(enemy.description());
         int attack = this.attack();
         int defense = enemy.defend();
-        int damageTaken = enemy.health.takeDamage(attack - defense);
+        int damageTaken = attack - defense;
+        if (damageTaken > 0){
+            int damageDealt = enemy.takeDamage(damageTaken);
+            messageCallback.send(String.format("%s dealt %d damage to %s", this.name, damageTaken, enemy.name));
+        } else {
+            messageCallback.send(String.format("%s missed %s", this.name, enemy.name));
+        }
+
     }
 
-    //new
-//    public void battle(Unit enemy,int attack)
-//    {
-//        int defense = enemy.defend();
-//        int damageTaken = enemy.health.takeDamage(attack - defense);
-//
-//    }
+
+    public void Bossbattle(Unit defender,int attack)
+    {
+        int defense = defender.defend();
+        if(attack-defense>0) {
+            int damageTaken = defender.health.takeDamage(attack - defense);
+        }
+
+    }
 
 
     public void interact(Tile t){
@@ -88,6 +102,7 @@ public abstract class Unit extends Tile {
         int x = e.getPosition().getX();
         int y = e.getPosition().getY();
         swapPosition(this, e.getPosition());
+
         this.position.setPos(x, y);
 
     }
@@ -101,8 +116,7 @@ public abstract class Unit extends Tile {
     public abstract String description();
 
     public abstract void onDeath() ;
-//        health.newCurrent(0);
-//        deathCallback.onDeath();
+
 
 
 
@@ -112,8 +126,11 @@ public abstract class Unit extends Tile {
     }
 
     public int takeDamage(int damage){
+
         return health.takeDamage(damage);
     }
-
+    public Health getHealth(){
+        return this.health;
+    }
 
 }

@@ -38,39 +38,30 @@ public class Mage extends  Player{
     public void castAbility() {
         if (this.current_mana < this.mana_cost) {
             messageCallback.send("Not enough mana for Blizzard");
-            //return "Not enough mana for Blizzard";//delete this
+
         }
         else {
-        this.current_mana = this.current_mana - this.mana_cost;
-        //
-            // Random rand = new Random();
-        int range = this.spellPower;
-        int hits = 0;
+            this.current_mana = this.current_mana - this.mana_cost;
 
-        //a code to randomly hit the enemys in the range while the hits is smaller than hitCount
-        List<Enemy> enemyList = boardController.enemiesInRange(this, range);
-        while (hits < hitCount && enemyList.size() > 0) {
-            hits++;
-            int randomValue = this.generator.generate(enemyList.size());
-            Enemy e = enemyList.get(randomValue);
+            int range = this.spellPower;
+            int hits = 0;
 
-            int defense = e.defend();
-            int attack = spellPower;
-            int damage =attack- defense ;
-            if (damage > 0) {
-                //not sure about this argument
-                e.takeDamage(attack);
-            } else {
-                e.onDeath();
+
+            List<Enemy> enemyList = boardController.enemiesInRange(this, range);
+            while (hits < hitCount && enemyList.size() > 0) {
+                hits++;
+                int randomValue = this.generator.generate(enemyList.size());
+                Enemy e = enemyList.get(randomValue);
+
+                this.visit(e);
+                hits++;
             }
-            hits++;
-        }
-        messageCallback.send("Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range");
-    } }
+            messageCallback.send("Blizzard casted, dealing " + this.spellPower + " damage to all enemies in range");
+        } }
 
     @Override
     public String description() {
-        return null;
+        return String.format(this.name + "-      health: " + this.health.getCurrent()+"/"+this.health.getCapacity()+"  attack: "+ this.attack + "  defense: " + this.defense + "  level: " + this.level + "  experience: " + this.experience + "/" + this.levelRequirement() +"   mana : " + this.current_mana+"/"+this.manaPool+"   spell power: "+this.spellPower);
     }
 
     public void onTick(Tile tile) {
@@ -79,5 +70,12 @@ public class Mage extends  Player{
         this.current_mana=Math.min(this.current_mana*level,this.manaPool);
 
     }
+    public int getManaPool() {
+        return manaPool;
+    }
+    public int getCurrentMana() {
+        return current_mana;
+    }
 
 }
+

@@ -30,7 +30,7 @@ public class Rogue extends Player{ //not done
 
     @Override
     public String description() {
-        return null;
+        return String.format(this.name + "-      health: " + this.health.getCurrent()+"/"+this.health.getCapacity()+"  attack: "+ this.attack + "  defense: " + this.defense + "  level: " + this.level + "  experience: " + this.experience + "/" + this.levelRequirement() +"   energy : " + this.Energy+"/"+ENERGY_MAX);
     }
 
     public void onTick(Tile tile){
@@ -40,24 +40,16 @@ public class Rogue extends Player{ //not done
     public void castAbility() {
         if (this.Energy < this.cost) {
             messageCallback.send("Not enough energy for Fan of Knives");
-            //return "Not enough energy for Fan of Knives";
+
         }
         else {
-        this.Energy = this.Energy - this.cost;
-        List<Enemy> enemyList = boardController.enemiesInRange(this, range);
-        for(Enemy e:enemyList)
-        {
-            int defense = e.defend();
-            int attack = this.attack;
-            int damage = attack-defense;
-            if (damage > 0) {
-                //not sure about this argument
-                e.takeDamage(damage);
-            } else {
-                e.onDeath();
+            this.Energy = this.Energy - this.cost;
+            List<Enemy> enemyList = boardController.enemiesInRange(this, range);
+            for(Enemy e:enemyList)
+            {
+                this.visit(e);
             }
-        }
-        messageCallback.send("Fan of Knives casted, dealing " + this.attack + " damage to all enemies");
-        //return "Fan of Knives casted, dealing " + this.attack + " damage to all enemies";
-    }}
+            messageCallback.send("Fan of Knives casted, dealing " + this.attack + " damage to all enemies");
+
+        }}
 }

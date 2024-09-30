@@ -3,6 +3,7 @@ package control.initializers;
 import model.tiles.Empty;
 import model.tiles.Tile;
 import model.tiles.Wall;
+import model.tiles.units.enemies.Boss;
 import model.tiles.units.enemies.Enemy;
 import model.tiles.units.enemies.Monster;
 import model.tiles.units.enemies.Trap;
@@ -28,23 +29,29 @@ public class TileFactory {
             () -> new Mage("Melisandre",100,5,1,300,30,15,5,6)   ,
             () -> new Mage("Thoros of Myr",250,25,4,150,20,20,3,4),
             () -> new Rogue("Arya Stark",150,40,2,20),
-            () -> new Rogue("Bronn",250,35,3,50)
+            () -> new Rogue("Bronn",250,35,3,50),
+            () -> new Hunter("Ygritte",220,30,2,6)
     );
 
     private static final Map<Character, Supplier<Enemy>> enemyTypes = Map.ofEntries(
-            Map.entry('s', () -> new Monster('s', "Lannister Solider", 8, 3, 80, 25, 3)),
-            Map.entry('k', () -> new Monster('k', "Lannister Knight", 14, 8, 200, 50, 4)),
-            Map.entry('q', () -> new Monster('q', "Queen’sGuard", 20, 15, 400, 100, 5)),
-            Map.entry('z', () -> new Monster('z', "Wright", 30, 15, 600, 100, 3)),
-            Map.entry('b', () -> new Monster('b', "Bear-Wright", 75, 30, 1000, 250, 4)),
-            Map.entry('g', () -> new Monster('g', "Giant-Wright", 100, 40, 1500, 500, 5)),
-            Map.entry('w', () -> new Monster('w', "White Walker", 150, 50, 2000, 1000, 6)),
-            Map.entry('M', () -> new Monster('M', "The Mountain", 60, 25, 1000, 500, 6)),
-            Map.entry('C', () -> new Monster('C', "Queen Cersei", 10, 10, 100, 1000, 1)),
-            Map.entry('K', () -> new Monster('K', "Night's King", 300, 150, 5000, 5000, 8)),
+            Map.entry('s', () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25, 3)),
+            Map.entry('k', () -> new Monster('k', "Lannister Knight", 200, 14, 8, 50, 4)),
+            Map.entry('q', () -> new Monster('q', "Queen’sGuard", 400, 20, 15, 100, 5)),
+            Map.entry('z', () -> new Monster('z', "Wright", 600, 30, 15, 100, 3)),
+            Map.entry('b', () -> new Monster('b', "Bear-Wright", 1000, 75, 30, 250, 4)),
+            Map.entry('g', () -> new Monster('g', "Giant-Wright", 1500, 100, 40, 500, 5)),
+            Map.entry('w', () -> new Monster('w', "White Walker", 2000, 150, 50, 1000, 6)),
+            Map.entry('M', () -> new Boss('M', "The Mountain", 1000, 60, 25, 500, 6,5)),
+            Map.entry('C', () -> new Boss('C', "Queen Cersei", 100, 10, 10, 1000, 1,8)),
+            Map.entry('K', () -> new Boss('K', "Night's King", 5000, 300, 150, 5000, 8,3)),
             Map.entry('B', () -> new Trap('B', "Bouns Trap", 1, 1, 1, 250, 1, 5)),
-            Map.entry('Q', () -> new Trap('Q', "Queen's Trap", 50, 10, 250, 100, 3, 7)),
-            Map.entry('D', () -> new Trap('D', "Death Trap", 100, 20, 500, 250, 1, 10))
+            Map.entry('Q', () -> new Trap('Q', "Queen's Trap", 250, 50, 10, 100, 3, 7)),
+            Map.entry('D', () -> new Trap('D', "Death Trap", 500, 100, 20, 250, 1, 10))
+    );
+    private static final Map<Character, Supplier<Trap>> TrapTypes = Map.ofEntries(
+            Map.entry('B', () -> new Trap('B', "Bouns Trap", 1, 1, 1, 250, 1, 5)),
+            Map.entry('Q', () -> new Trap('Q', "Queen's Trap", 250, 50, 10, 100, 3, 7)),
+            Map.entry('D', () -> new Trap('D', "Death Trap", 500, 100, 20, 250, 1, 10))
     );
     public TileFactory()
     {
@@ -61,6 +68,7 @@ public class TileFactory {
         e.initialize(p, g, c, m);
         return e;
     }
+
 
     public Tile produceEmpty(Position p){
         return new Empty().initialize(p);

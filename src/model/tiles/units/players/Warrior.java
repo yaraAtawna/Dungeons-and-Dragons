@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Warrior extends Player {
     private final int cooldown;
+
     private int remainingCooldown;
     private final int ABILITY_RANGE = 3;
     private final int LEVELUP_HEALTH = 5;
@@ -25,6 +26,7 @@ public class Warrior extends Player {
         super(name, hitPoints, attack, defense);
         this.cooldown=cooldown;
         this.remainingCooldown=0;
+        this.abilityName ="Avenger’s Shield";
     }
 
     @Override
@@ -41,44 +43,59 @@ public class Warrior extends Player {
 
     @Override
     public String description() {
-        return null;
+        return String.format(this.name + "-      health: " + this.health.getCurrent()+"/"+this.health.getCapacity()+"  attack: "+ this.attack + "  defense: " + this.defense + "  level: " + this.level + "  experience: " + this.experience + "/" + this.levelRequirement() +"   cooldown : " + this.remainingCooldown+"/"+this.cooldown);
+
     }
 
-    //need to take argument?
+
     public void onTick(Tile tile)
     {
         super.onTick(tile);
-        this.remainingCooldown=Math.min(0,this.remainingCooldown-1);
+        this.remainingCooldown=Math.max(0,this.remainingCooldown-1);
     }
 
-    //enemies list from board! change argument?
+
     public void castAbility() {
-        /*
-        remaining cooldown ← ability cooldown
-        - current health ← min (current health + (10 × defense), health pool)
-         */
+
+
         if(this.remainingCooldown>0){
-            messageCallback.send("You cant cast  special ability");
+            messageCallback.send("You cant cast  special ability , cooldown remaining: "+this.remainingCooldown);
         }
         else {
+            messageCallback.send("cast  special ability : " + this.abilityName);
             this.remainingCooldown = this.cooldown;
             int cap = this.health.getCurrent() + ABILITY_DEFENSE * this.defense;
             int current = Math.min(cap, this.health.getCapacity());
             this.health.newCurrent(current);
 
-            //randomly hits enemy
+
             List<Enemy> enemiesRange = boardController.enemiesInRange(this, ABILITY_RANGE);
+
             if (enemiesRange.size() > 0) {
                 int randomValue = this.generator.generate(enemiesRange.size());
                 Enemy e = enemiesRange.get(randomValue);
-                int defense = e.defend();
-                int attack = (int) ABILITY_HIT * this.health.getCapacity();
-                int damage = attack - defense;
+
+                int wAttack = (int) (ABILITY_HIT * this.health.getCapacity());
+
+                messageCallback.send(this.name +" rolled " + wAttack+ " attack points.");
+                int defense =e.defend();
+
+                int damage = wAttack - defense;
                 if (damage > 0) {
+                    messageCallback.send(String.format("%s dealt %d damage to %s", this.name, damage, e.name));
                     e.takeDamage(damage);
-                } else {
-                    e.onDeath();
                 }
+                Position pos = e.getPosition();
+                if (!e.alive()) {
+                    messageCallback.send(String.format("%s you killed enemy.", name));
+                    addExperience(e.experienceValue());
+//                    System.out.println("pos: " + pos);
+                    boardController.swapPos(this, pos);
+
+//                    System.out.println("position: " + position);
+
+                }
+
 
             }
         }

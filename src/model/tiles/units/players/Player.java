@@ -1,25 +1,28 @@
 package model.tiles.units.players;
 
 import model.tiles.Tile;
+import model.tiles.units.HeroicUnit;
 import model.tiles.units.Unit;
 import model.tiles.units.enemies.Enemy;
+import utils.Health;
 import utils.Position;
 import utils.boardController;
 
-import java.util.List;
 
-public abstract class Player extends Unit
-{
+public abstract class Player extends Unit implements HeroicUnit {
     public static final char PLAYER_TILE = '@';
     protected static final int LEVEL_REQUIREMENT = 50;
     protected static final int HEALTH_GAIN = 10;
     protected static final int ATTACK_GAIN = 4;
     protected static final int DEFENSE_GAIN = 1;
-
+    private int healthGained=0;
+    private int attackGained=0;
+    private int defenseGained=0;
     protected int level;
     protected int experience;
 
-    protected String abilityName;
+    protected  String abilityName;
+
     public abstract void castAbility();
 
     public Player(String name, int hitPoints, int attack, int defense) {
@@ -28,14 +31,18 @@ public abstract class Player extends Unit
         this.experience = 0;
     }
 
-    public void addExperience(int experienceValue){
+    public void addExperience(int experienceValue) {
+        messageCallback.send(String.format("%s gained %d experience.", name, experienceValue));
         this.experience += experienceValue;
         while (experience >= levelRequirement()) {
             levelUp();
         }
     }
-
-    public void levelUp(){
+    public int getLevel(){
+        return level;
+    }
+    public void levelUp() {
+        messageCallback.send(String.format("%s leveled up.", name));
         this.experience -= levelRequirement();
         this.level++;
         int healthGain = healthGain();
@@ -45,21 +52,44 @@ public abstract class Player extends Unit
         health.heal();
         attack += attackGain;
         defense += defenseGain;
+        healthGained+=healthGain;
+        attackGained+=attackGain;
+        defenseGained+=defenseGain;
+
     }
 
-    protected int levelRequirement(){
+    public int getHealthGained() {
+        return healthGained;
+    }
+    public int getAttackGained() {
+        return attackGained;
+    }
+    public int getDefenseGained() {
+        return defenseGained;
+    }
+    public void setAttackGain(){
+        attackGained=0;
+    }
+    public void setDefenseGain(){
+        defenseGained=0;
+    }
+    public void setHealthGain(){
+        healthGained=0;
+    }
+
+    protected int levelRequirement() {
         return LEVEL_REQUIREMENT * level;
     }
 
-    protected int healthGain(){
+    protected int healthGain() {
         return HEALTH_GAIN * level;
     }
 
-    protected int attackGain(){
+    protected int attackGain() {
         return ATTACK_GAIN * level;
     }
 
-    protected int defenseGain(){
+    protected int defenseGain() {
         return DEFENSE_GAIN * level;
     }
 
@@ -68,37 +98,49 @@ public abstract class Player extends Unit
         unit.visit(this);
     }
 
-    public void visit(Player p){
+    public void visit(Player p) {
         // Do nothing
     }
 
     //visit=battle
-    public void visit(Enemy e){
+    public void visit(Enemy e) {
+        System.out.println("test");
         Position pos = e.getPosition();
+
         battle(e);
-        if(!e.alive()){
+        if (!e.alive()) {
             messageCallback.send(String.format("%s you killed enemy.", name));
             addExperience(e.experienceValue());
-            boardController.swapPosEnemy(this, pos);
-            this.position.setPos(pos.getX(), pos.getY());
-            //messageCallback.send(String.format("%s enemy died.", name));
+
+            boardController.swapPos(this, pos);
+
         }
+
     }
 
     @Override
-    public void onDeath()
-    {
+    public void onDeath() {
         //TODO: Implement onDeath
         //just send out the message
         health.newCurrent(0);
         deathCallback.onDeath();
     }
 
-    public void onTick(Tile tile)
-    {
+    public void onTick(Tile tile) {
         super.onTick(tile);
 
     }
-
+    public int getExperience(){
+        return this.experience;
+    }
+    public Health getHealth(){
+        return health;
+    }
+    public int getAttack(){
+        return attack;
+    }
+    public int getDefense(){
+        return defense;
+    }
 
 }
