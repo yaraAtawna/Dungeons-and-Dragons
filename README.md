@@ -13,7 +13,7 @@ Players take turns with enemies, and the game continues until all levels are com
 Controls
 # Key	Action
 w	Move up
-s	Move down
-a	Move left
-d	Move right
-e	Cast special ability
+/ s	Move down
+/ a	Move left
+/ d	Move right
+/ e	Cast special ability
